@@ -25,8 +25,8 @@ class LauncherToggleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => new SizedBox(
-        height: 45,
-        width: 45,
+        height: 48,
+        width: 48,
         child: Toggle(
           key: _toggleKey,
           callback: _callback,

@@ -21,6 +21,7 @@ import 'package:Pangolin/utils/widgets/hover.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
+import 'package:utopia_wm/wm.dart';
 
 class AppLauncherButton extends StatefulWidget {
   final Widget app;
@@ -34,18 +35,18 @@ class AppLauncherButton extends StatefulWidget {
   final Color color;
   final ValueChanged<bool> _callback;
 
-  AppLauncherButton(
-      {@required this.app,
-      @required this.icon,
-      this.label,
-      this.type = AppLauncherButtonType.TaskBar,
-      this.appExists = true,
-      this.customBar = true,
-      this.childHeight = 64.0,
-      this.childWidth = 64.0,
-      @required this.color,
-      callback})
-      : _callback =
+  AppLauncherButton({
+    @required this.app,
+    @required this.icon,
+    this.label,
+    this.type = AppLauncherButtonType.TaskBar,
+    this.appExists = true,
+    this.customBar = true,
+    this.childHeight = 64.0,
+    this.childWidth = 64.0,
+    @required this.color,
+    callback,
+  }) : _callback =
             callback; //This alien syntax must be syntactical glucose for a setter. Neato.
 
   @override
@@ -93,12 +94,19 @@ class AppLauncherButtonState extends State<AppLauncherButton> {
                         });
 
                         widget.appExists
-                            ? Provider.of<WindowsData>(context, listen: false)
-                                .add(
-                                    child: widget.app,
-                                    color: HiveManager.get("coloredTitlebar")
-                                        ? widget.color
-                                        : Colors.grey[900])
+                            ? Provider.of<WindowHierarchyState>(context,
+                                    listen: false)
+                                .pushWindowEntry(
+                                WindowEntry.withDefaultToolbar(
+                                  content: widget.app,
+                                  icon: AssetImage(widget.icon),
+                                  title: widget.label,
+                                  toolbarColor:
+                                      HiveManager.get("coloredTitlebar")
+                                          ? widget.color
+                                          : Colors.grey[900],
+                                ),
+                              )
                             : showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
