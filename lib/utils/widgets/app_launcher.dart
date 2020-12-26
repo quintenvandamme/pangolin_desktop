@@ -15,7 +15,6 @@ limitations under the License.
 */
 
 import 'dart:ui';
-import 'package:Pangolin/desktop/window/model.dart';
 import 'package:Pangolin/utils/hiveManager.dart';
 import 'package:Pangolin/utils/widgets/hover.dart';
 import 'package:flutter/material.dart';

@@ -24,7 +24,6 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   _SearchAppBarState createState() => _SearchAppBarState();
 
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => Size.fromHeight(55);
 }
 

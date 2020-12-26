@@ -17,21 +17,13 @@ limitations under the License.
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:Pangolin/applications/calculator/calculator.dart';
-import 'package:Pangolin/applications/editor/editor.dart';
-import 'package:Pangolin/applications/terminal/main.dart';
-import 'package:Pangolin/applications/monitor/monitor.dart';
 import 'package:Pangolin/desktop/launcher/taskbar.dart';
-import 'package:Pangolin/desktop/settings/settings.dart';
 import 'package:Pangolin/desktop/window/wallpaper_layer.dart';
 import 'package:Pangolin/main.dart';
 import 'package:Pangolin/utils/others/key_ring.dart';
-import 'package:Pangolin/desktop/window/window_space.dart';
 import 'package:Pangolin/utils/hiveManager.dart';
 import 'package:Pangolin/utils/themes/customization_manager.dart';
 import 'package:Pangolin/utils/widgets/blur.dart';
-import 'package:Pangolin/utils/widgets/conditionWidget.dart';
-import 'package:Pangolin/applications/files/main.dart';
 import 'package:Pangolin/desktop/quicksettings/quick_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:Pangolin/utils/widgets/system_overlay.dart';
@@ -39,7 +31,6 @@ import 'package:Pangolin/desktop/launcher/launcher_toggle.dart';
 import 'package:Pangolin/desktop/quicksettings/status_tray.dart';
 import 'package:Pangolin/desktop/launcher/launcher.dart';
 import 'package:provider/provider.dart';
-import 'package:Pangolin/utils/widgets/app_launcher.dart';
 import 'package:Pangolin/utils/others/functions.dart';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
