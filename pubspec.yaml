@@ -7,8 +7,8 @@ environment:
 dependencies:
   intl:
   expressions: ^0.1.2
-  json_annotation: ^2.0.0
-  shared_preferences: ^0.5.7+3
+  json_annotation: ^3.1.1
+  json_serializable: ^3.5.1
   provider: ^5.0.0-nullsafe1
   flutter_localizations:
     sdk: flutter
@@ -16,7 +16,6 @@ dependencies:
   hive_flutter: ^0.3.0+2
   path_provider: ^1.6.11
   flutter_colorpicker: ^0.3.4
-  google_fonts: ^1.1.0
   path: ^1.7.0
   process_run:
   open_file:
@@ -31,8 +30,7 @@ dependencies:
 #Useful in an ideal future but not now.  random_color: ^1.0.5
 
 dev_dependencies:
-  mockito:
-  json_serializable: ^2.0.0
+  mockito: ^4.1.3
   flutter_test:
     sdk: flutter
 
