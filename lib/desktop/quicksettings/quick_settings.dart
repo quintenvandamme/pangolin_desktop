@@ -16,7 +16,6 @@ import 'dart:io';
 import 'package:Pangolin/internal/locales/locale_strings.g.dart';
 import 'package:Pangolin/internal/locales/locales.g.dart';
 import 'package:Pangolin/utils/others/functions.dart';
-import 'package:Pangolin/desktop/window/model.dart';
 import 'package:Pangolin/utils/hiveManager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
