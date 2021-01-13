@@ -31,8 +31,6 @@ import 'package:easy_localization/easy_localization.dart';
 /// Use this sparingly, or better yet, not at all.
 bool isTesting = false;
 
-WindowsData provisionalWindowData = new WindowsData();
-
 var defaultTheme;
 
 void main() async {
@@ -70,23 +68,20 @@ class _PangolinState extends State<Pangolin> {
   @override
   Widget build(BuildContext context) {
     //Gets DahliaOS UI set up in a familiar way.
-    return ChangeNotifierProvider<WindowsData>(
-      create: (context) => provisionalWindowData,
-      child: ChangeNotifierProvider(
-        create: (_) => CustomizationNotifier(),
-        child: Consumer<CustomizationNotifier>(
-          builder: (context, CustomizationNotifier notifier, child) {
-            return MaterialApp(
-              title: 'Pangolin Desktop',
-              theme: notifier.darkTheme
-                  ? Themes.dark(CustomizationNotifier().accent)
-                  : Themes.light(CustomizationNotifier().accent),
-              home: Desktop(title: 'Pangolin Desktop'),
-              localizationsDelegates: context.localizationDelegates,
-              locale: context.locale,
-            );
-          },
-        ),
+    return ChangeNotifierProvider(
+      create: (_) => CustomizationNotifier(),
+      child: Consumer<CustomizationNotifier>(
+        builder: (context, CustomizationNotifier notifier, child) {
+          return MaterialApp(
+            title: 'Pangolin Desktop',
+            theme: notifier.darkTheme
+                ? Themes.dark(CustomizationNotifier().accent)
+                : Themes.light(CustomizationNotifier().accent),
+            home: Desktop(title: 'Pangolin Desktop'),
+            localizationsDelegates: context.localizationDelegates,
+            locale: context.locale,
+          );
+        },
       ),
     );
   }

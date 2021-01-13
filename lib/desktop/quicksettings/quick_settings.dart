@@ -27,6 +27,7 @@ import 'dart:async';
 import 'package:Pangolin/main.dart';
 import 'package:Pangolin/desktop/settings/settings.dart';
 import 'package:Pangolin/utils/others/wifi.dart';
+import 'package:utopia_wm/wm.dart';
 
 class QuickSettings extends StatefulWidget {
   @override
@@ -216,9 +217,15 @@ class QuickSettingsState extends State<QuickSettings> {
               size: scale(20),
             ),
             onPressed: () {
-              Provider.of<WindowsData>(context, listen: false)
-                  .add(child: Settings(), color: Colors.grey[900]);
-              hideOverlays();
+              Provider.of<WindowHierarchyState>(context, listen: false)
+                  .pushWindowEntry(
+                WindowEntry.withDefaultToolbar(
+                  content: Settings(),
+                  icon: AssetImage("assets/images/icons/PNG/settings.png"),
+                  title: "Settings",
+                  toolbarColor: Colors.deepOrange[700],
+                ),
+              );
             },
             color: const Color(0xFFffffff),
           ),
@@ -346,8 +353,15 @@ class QuickSettingsState extends State<QuickSettings> {
                   setState(() {
                     HiveManager.set("wifi", false);
                   });
-                  Provider.of<WindowsData>(context, listen: false)
-                      .add(child: WirelessApp(), color: Colors.deepOrange[700]);
+                  Provider.of<WindowHierarchyState>(context, listen: false)
+                      .pushWindowEntry(
+                    WindowEntry.withDefaultToolbar(
+                      content: WirelessApp(),
+                      icon: AssetImage("settings"),
+                      title: "Wireless Connection",
+                      toolbarColor: Colors.deepOrange[700],
+                    ),
+                  );
                   hideOverlays();
                 }),
                 buildTile(
