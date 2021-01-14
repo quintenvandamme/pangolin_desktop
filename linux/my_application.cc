@@ -1,5 +1,9 @@
 #include "my_application.h"
 
+#include <stdio.h>
+#include <sys/stat.h>
+#include <string>
+
 #include <flutter_linux/flutter_linux.h>
 
 #include "flutter/generated_plugin_registrant.h"
@@ -10,17 +14,29 @@ struct _MyApplication {
 
 G_DEFINE_TYPE(MyApplication, my_application, GTK_TYPE_APPLICATION)
 
+inline bool file_exists (const std::string& name) {
+  struct stat buffer;   
+  return (stat (name.c_str(), &buffer) == 0); 
+}
+
 // Implements GApplication::activate.
 static void my_application_activate(GApplication* application) {
   GtkWindow* window =
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
-  GtkHeaderBar *header_bar = GTK_HEADER_BAR(gtk_header_bar_new());
-  gtk_widget_show(GTK_WIDGET(header_bar));
-  gtk_header_bar_set_title(header_bar, "pangolin_desktop");
-  gtk_header_bar_set_show_close_button(header_bar, TRUE);
+//  GtkHeaderBar *header_bar = GTK_HEADER_BAR(gtk_header_bar_new());
+//  gtk_widget_show(GTK_WIDGET(header_bar));
+//  gtk_header_bar_set_title(header_bar, "pangolin_desktop");
+//  gtk_header_bar_set_show_close_button(header_bar, TRUE);
 //  gtk_window_set_titlebar(window, GTK_WIDGET(header_bar));
   gtk_window_set_default_size(window, 1280, 720);
+  gtk_window_set_default_icon_name("preferences-desktop-theme");
+  if (file_exists("/usr/share/pixmaps/pangolin-desktop.png")) {
+    gtk_window_set_icon_from_file(window, "/usr/share/pixmaps/pangolin-desktop.png", nullptr);
+  };
   gtk_widget_show(GTK_WIDGET(window));
+  // if (gtk_icon_theme_has_icon(gtk_icon_theme_get_default(), "pangolin-desktop")) {
+  //   gtk_window_set_icon_name(window, "pangolin-desktop");
+  // };
 
   g_autoptr(FlDartProject) project = fl_dart_project_new();
 
