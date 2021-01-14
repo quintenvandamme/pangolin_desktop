@@ -19,6 +19,8 @@ import 'package:Pangolin/utils/hiveManager.dart';
 import 'package:flutter/material.dart';
 import 'package:Pangolin/utils/widgets/app_launcher.dart';
 import 'package:Pangolin/utils/others/functions.dart';
+import 'package:provider/provider.dart';
+import 'package:utopia_wm/wm.dart';
 
 Expanded tileSection(BuildContext context) {
   double _width() {
@@ -39,22 +41,28 @@ Expanded tileSection(BuildContext context) {
 
   return Expanded(
     child: Container(
-        padding: EdgeInsets.all(15.0),
-        margin: EdgeInsets.symmetric(horizontal: _width()),
-        child: SingleChildScrollView(
-          child: Wrap(
-              spacing: 18.0,
-              children: applicationsData
-                  .map<Widget>((e) => AppLauncherButton(
-                        icon: "assets/images/icons/PNG/" + e.icon + ".png",
-                        app: e.app,
-                        label: e.appName,
-                        appExists: e.appExists,
-                        callback: toggleCallback,
-                        color: e.color,
-                        type: AppLauncherButtonType.Drawer,
-                      ))
-                  .toList()),
-        )),
+      padding: EdgeInsets.all(15.0),
+      margin: EdgeInsets.symmetric(horizontal: _width()),
+      child: GridView(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 148,
+        ),
+        padding: EdgeInsets.only(
+          bottom: Provider.of<WindowHierarchyState>(context).insets.bottom,
+        ),
+        children: applicationsData
+            .map<Widget>(
+              (e) => AppLauncherButton(
+                icon: "assets/images/icons/PNG/" + e.icon + ".png",
+                app: e.app,
+                label: e.appName,
+                appExists: e.appExists,
+                callback: toggleCallback,
+                color: e.color,
+              ),
+            )
+            .toList(),
+      ),
+    ),
   );
 }

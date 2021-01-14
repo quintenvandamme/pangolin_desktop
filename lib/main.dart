@@ -17,7 +17,6 @@ limitations under the License.
 import 'package:Pangolin/desktop/desktop.dart';
 import 'package:Pangolin/internal/locales/generated_asset_loader.g.dart';
 import 'package:Pangolin/internal/locales/locales.g.dart';
-import 'package:Pangolin/desktop/window/model.dart';
 import 'package:Pangolin/utils/applicationdata.dart';
 import 'package:Pangolin/utils/hiveManager.dart';
 import 'package:Pangolin/utils/themes/customization_manager.dart';
@@ -31,8 +30,8 @@ import 'package:easy_localization/easy_localization.dart';
 /// Set this to disable certain things during testing.
 /// Use this sparingly, or better yet, not at all.
 bool isTesting = false;
-
-WindowsData provisionalWindowData = new WindowsData();
+// Set this to enable features only found on dahliaOS.
+bool isDahlia = true;
 
 var defaultTheme;
 
@@ -42,8 +41,7 @@ void main() async {
   await Hive.initFlutter();
   Pangolin.settingsBox = await Hive.openBox("settings");
   HiveManager.initializeHive();
-  //loadConfig();
-  // defaultTheme = await getSystemTheme();
+
   runApp(
     EasyLocalization(
       supportedLocales: Locales.supported,
@@ -71,23 +69,20 @@ class _PangolinState extends State<Pangolin> {
   @override
   Widget build(BuildContext context) {
     //Gets DahliaOS UI set up in a familiar way.
-    return ChangeNotifierProvider<WindowsData>(
-      create: (context) => provisionalWindowData,
-      child: ChangeNotifierProvider(
-        create: (_) => CustomizationNotifier(),
-        child: Consumer<CustomizationNotifier>(
-          builder: (context, CustomizationNotifier notifier, child) {
-            return MaterialApp(
-              title: 'Pangolin Desktop',
-              theme: notifier.darkTheme
-                  ? Themes.dark(CustomizationNotifier().accent)
-                  : Themes.light(CustomizationNotifier().accent),
-              home: Desktop(title: 'Pangolin Desktop'),
-              localizationsDelegates: context.localizationDelegates,
-              locale: context.locale,
-            );
-          },
-        ),
+    return ChangeNotifierProvider(
+      create: (_) => CustomizationNotifier(),
+      child: Consumer<CustomizationNotifier>(
+        builder: (context, CustomizationNotifier notifier, child) {
+          return MaterialApp(
+            title: 'Pangolin Desktop',
+            theme: notifier.darkTheme
+                ? Themes.dark(CustomizationNotifier().accent)
+                : Themes.light(CustomizationNotifier().accent),
+            home: Desktop(title: 'Pangolin Desktop'),
+            localizationsDelegates: context.localizationDelegates,
+            locale: context.locale,
+          );
+        },
       ),
     );
   }

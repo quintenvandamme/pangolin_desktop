@@ -17,7 +17,6 @@ import 'package:path/path.dart' as path;
 import 'dart:convert';
 import 'dart:core';
 import 'dart:async' show Future;
-import 'package:flutter/services.dart' show rootBundle;
 
 class Configuration {
   String theme;
