@@ -63,12 +63,12 @@ class _DeveloperAppPageState extends State<DeveloperAppPage> {
               children: [
                 Text(
                     "Warning: These options are intended for development purposes only. If something goes seriously wrong when using these, hold down the power button for 5-10 seconds to force a shutdown."),
-                RaisedButton(
+                ElevatedButton(
                     onPressed: () {
                       Process.run('reboot', [' ']);
                     },
                     child: Text('Reboot')),
-                RaisedButton(
+                ElevatedButton(
                     onPressed: () {
                       Process.run('poweroff', ['-f']);
                     },
@@ -79,22 +79,22 @@ class _DeveloperAppPageState extends State<DeveloperAppPage> {
                     },
                     child: Text('Enter commandline mode')),
                 Text('DANGEROUS OPTIONS!!!!'),
-                RaisedButton(
+                ElevatedButton(
                     onPressed: () {
                       Process.run('echo', ['c', '>', '/proc/sysrq-trigger']);
                     },
                     child: Text('Induce Kernel Panic')),
-                RaisedButton(
+                ElevatedButton(
                     onPressed: () {
                       Process.run(':(){ :|:& };', ['']);
                     },
                     child: Text('Execute Fork Bomb')),
-                RaisedButton(
+                ElevatedButton(
                     onPressed: () {
                       Pangolin.settingsBox.clear();
                     },
                     child: Text('Clear local Database')),
-                RaisedButton(
+                ElevatedButton(
                     onPressed: () {
                       DahliaNotification.showNotification(
                           "System Update",
