@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import 'package:Pangolin/utils/others/context_menu_item.dart';
+import 'package:Pangolin/utils/widgets/context_menu.dart';
 import 'package:Pangolin/utils/widgets/notification.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
@@ -53,6 +55,7 @@ class DeveloperAppPage extends StatefulWidget {
 class _DeveloperAppPageState extends State<DeveloperAppPage> {
   @override
   Widget build(BuildContext context) {
+    GlobalKey _testKey = GlobalKey();
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Developer options (Linux)'),
@@ -73,7 +76,7 @@ class _DeveloperAppPageState extends State<DeveloperAppPage> {
                       Process.run('poweroff', ['-f']);
                     },
                     child: Text('Shutdown')),
-                RaisedButton(
+                ElevatedButton(
                     onPressed: () {
                       Process.run('killall', ['pangolin_desktop']);
                     },
@@ -103,6 +106,21 @@ class _DeveloperAppPageState extends State<DeveloperAppPage> {
                           () {});
                     },
                     child: Text('Show Test Notification')),
+                ContextMenu(
+                  entries: [
+                    ContextMenuItem(
+                        text: "Test",
+                        icon: Icons.add,
+                        action: () {
+                          print("test");
+                        })
+                  ],
+                  child: ElevatedButton(
+                    key: _testKey,
+                    onPressed: () {},
+                    child: Text("Context Menu Test"),
+                  ),
+                ),
               ],
             ),
           ),
