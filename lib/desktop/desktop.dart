@@ -123,14 +123,11 @@ class _DesktopState extends State<Desktop> {
                     child: Blur(
                       borderRadius: BorderRadius.circular(5.0),
                       child: Stack(children: [
-                        BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.75),
-                            ),
-                            child: QuickSettings(),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.75),
                           ),
+                          child: QuickSettings(),
                         ),
                       ]),
                     ),
