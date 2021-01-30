@@ -213,7 +213,14 @@ class _StopwatchTabState extends State<StopwatchTab> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
-          )
+          ),
+          for (Duration _lap in _laps)
+            Builder(builder: (context) {
+              int index = _laps.indexOf(_lap);
+              String difference = "";
+              if (index != 0 && _laps.length > 1) difference = "${_laps[index] - _laps[index-1]}, ";
+              return Text("Lap ${index+1}: $difference${_laps[index].toString()} total");
+            })
         ],
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
