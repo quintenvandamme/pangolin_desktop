@@ -179,6 +179,7 @@ class _StopwatchTabState extends State<StopwatchTab> {
   List<Duration> _laps = [];
   @override
   Widget build(BuildContext context) {
+    if (_stopwatch.isRunning) Future.delayed(Duration(milliseconds: 10)).then((_) => mounted ? setState((){}) : null);
     return Container(
       child: Column(
         children: [
@@ -187,17 +188,17 @@ class _StopwatchTabState extends State<StopwatchTab> {
             children: [
               _stopwatch.isRunning ? TextButton(
                 child: Text("STOP", style: TextStyle(color: Theme.of(context).accentColor)),
-                onPressed: () => _stopwatch.stop(),
+                onPressed: () => setState((){_stopwatch.stop();}),
               ) : TextButton(
                 child: Text("START", style: TextStyle(color: Theme.of(context).accentColor)),
-                onPressed: () => _stopwatch.start(),
+                onPressed: () => setState((){_stopwatch.start();}),
               ),
               _stopwatch.isRunning ? TextButton(
                 child: Text("LAP"),
-                onPressed: () => _laps.add(_stopwatch.elapsed),
+                onPressed: () => setState((){_laps.add(_stopwatch.elapsed);}),
               ) : TextButton(
                 child: Text("RESET"),
-                onPressed: () => _stopwatch.reset(),
+                onPressed: () => setState((){_stopwatch.reset();}),
               ),
             ],
           )
