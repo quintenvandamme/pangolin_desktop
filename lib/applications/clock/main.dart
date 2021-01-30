@@ -142,7 +142,7 @@ class _WorldClockTabState extends State<WorldClockTab> {
   Widget build(BuildContext context) {
     if (_ctimer == null) _ctimer = Timer.periodic(Duration(seconds: 1), (me) {
       _datetime = DateTime.now();
-      setState(() {});
+      if (mounted) setState(() {});
     });
     return Material(
       child: Center(
@@ -174,16 +174,25 @@ class StopwatchTab extends StatefulWidget {
   _StopwatchTabState createState() => _StopwatchTabState();
 }
 
+var _stopwatch = Stopwatch();
 class _StopwatchTabState extends State<StopwatchTab> {
-  var _stopwatch = Stopwatch();
   List<Duration> _laps = [];
   @override
   Widget build(BuildContext context) {
     if (_stopwatch.isRunning) Future.delayed(Duration(milliseconds: 10)).then((_) => mounted ? setState((){}) : null);
     return Container(
+      alignment: Alignment.center,
       child: Column(
         children: [
-          Row(children: [Text(_stopwatch.elapsed.toString(), style: Theme.of(context).textTheme.headline5)],),
+          Container(height: 24),
+          Row(
+            children: [
+              Text(_stopwatch.elapsed.toString(), style: Theme.of(context).textTheme.headline5, textAlign: TextAlign.center)
+            ],
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+          ),
           Row(
             children: [
               _stopwatch.isRunning ? TextButton(
@@ -201,11 +210,14 @@ class _StopwatchTabState extends State<StopwatchTab> {
                 onPressed: () => setState((){_stopwatch.reset();}),
               ),
             ],
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
           )
         ],
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
       ),
     );
   }
