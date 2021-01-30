@@ -61,7 +61,7 @@ class ClockApp extends StatefulWidget {
 class _ClockApp extends State<ClockApp> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    TabController tcon = TabController(length: 2, vsync: this);
+    TabController tcon = TabController(length: 4, vsync: this);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -85,6 +85,14 @@ class _ClockApp extends State<ClockApp> with TickerProviderStateMixin {
                   icon: Icon(Icons.alarm),
                   text: "Alarms",
                 ),
+                Tab(
+                  icon: Icon(Icons.timelapse),
+                  text: "Timers"
+                ),
+                Tab(
+                  icon: Icon(Icons.timer),
+                  text: "Stopwatch"
+                )
               ],
             ),
             Expanded(child: Container()),
@@ -107,7 +115,13 @@ class _ClockApp extends State<ClockApp> with TickerProviderStateMixin {
         controller: tcon,
         children: [
           WorldClockTab(),
-          AlarmsTab()
+          AlarmsTab(),
+          Material(
+            child: Center(
+              child: Icon(Icons.airplanemode_active)
+            ),
+          ),
+          StopwatchTab(),
         ],
       )
     );
@@ -150,6 +164,47 @@ class AlarmsTab extends StatelessWidget {
     return Material(
       child: Center(
         child: Icon(Icons.timer_rounded)
+      ),
+    );
+  }
+}
+
+class StopwatchTab extends StatefulWidget {
+  @override
+  _StopwatchTabState createState() => _StopwatchTabState();
+}
+
+class _StopwatchTabState extends State<StopwatchTab> {
+  var _stopwatch = Stopwatch();
+  List<Duration> _laps = [];
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Row(children: [Text(_stopwatch.elapsed.toString(), style: Theme.of(context).textTheme.headline5)],),
+          Row(
+            children: [
+              _stopwatch.isRunning ? TextButton(
+                child: Text("STOP", style: TextStyle(color: Theme.of(context).accentColor)),
+                onPressed: () => _stopwatch.stop(),
+              ) : TextButton(
+                child: Text("START", style: TextStyle(color: Theme.of(context).accentColor)),
+                onPressed: () => _stopwatch.start(),
+              ),
+              _stopwatch.isRunning ? TextButton(
+                child: Text("LAP"),
+                onPressed: () => _laps.add(_stopwatch.elapsed),
+              ) : TextButton(
+                child: Text("RESET"),
+                onPressed: () => _stopwatch.reset(),
+              ),
+            ],
+          )
+        ],
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
       ),
     );
   }
