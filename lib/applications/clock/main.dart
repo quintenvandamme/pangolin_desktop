@@ -176,6 +176,25 @@ class StopwatchTab extends StatefulWidget {
 
 var _stopwatch = Stopwatch();
 class _StopwatchTabState extends State<StopwatchTab> {
+
+  String formatDuration(Duration duration) {
+    String output = "";
+    const colon = ":";
+    const dot = ".";
+
+    int durationHours = duration.inHours;
+    int durationMinutes = (duration.inMinutes - (durationHours * 60));
+    int durationSeconds = (duration.inSeconds - (durationMinutes * 60));
+    int durationMilliseconds = (duration.inMilliseconds - (durationSeconds * 1000));
+    
+    if (durationHours > 0) output += "${durationHours}h ";
+    if (durationMinutes > 0) output += "${durationMinutes}m ";
+    if (durationSeconds > 0 || durationMilliseconds > 0) output += "$durationSeconds.${durationMilliseconds.toString().padLeft(4,"0")}s ";
+    else if (durationMinutes == 0 && durationHours == 0 && durationMilliseconds == 0) output += "0s";
+
+    return output;
+  }
+
   List<Duration> _laps = [];
   @override
   Widget build(BuildContext context) {
@@ -187,7 +206,7 @@ class _StopwatchTabState extends State<StopwatchTab> {
           Container(height: 24),
           Row(
             children: [
-              Text(_stopwatch.elapsed.toString(), style: Theme.of(context).textTheme.headline5, textAlign: TextAlign.center)
+              Text(formatDuration(_stopwatch.elapsed), style: Theme.of(context).textTheme.headline5, textAlign: TextAlign.center)
             ],
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,7 +226,7 @@ class _StopwatchTabState extends State<StopwatchTab> {
                 onPressed: () => setState((){_laps.add(_stopwatch.elapsed);}),
               ) : TextButton(
                 child: Text("RESET"),
-                onPressed: () => setState((){_stopwatch.reset();}),
+                onPressed: () => setState((){_stopwatch.reset();_laps.clear();}),
               ),
             ],
             mainAxisSize: MainAxisSize.max,
@@ -218,8 +237,8 @@ class _StopwatchTabState extends State<StopwatchTab> {
             Builder(builder: (context) {
               int index = _laps.indexOf(_lap);
               String difference = "";
-              if (index != 0 && _laps.length > 1) difference = "${_laps[index] - _laps[index-1]}, ";
-              return Text("Lap ${index+1}: $difference${_laps[index].toString()} total");
+              if (index != 0 && _laps.length > 1) difference = "${formatDuration(_laps[index] - _laps[index-1])}, ";
+              return Text("Lap ${index+1}: $difference${formatDuration(_laps[index])} total");
             })
         ],
         mainAxisSize: MainAxisSize.max,
