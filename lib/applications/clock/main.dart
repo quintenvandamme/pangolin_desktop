@@ -61,7 +61,7 @@ class ClockApp extends StatefulWidget {
 class _ClockApp extends State<ClockApp> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    TabController tcon = TabController(length: 2, vsync: this);
+    TabController tcon = TabController(length: 4, vsync: this);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -85,6 +85,14 @@ class _ClockApp extends State<ClockApp> with TickerProviderStateMixin {
                   icon: Icon(Icons.alarm),
                   text: "Alarms",
                 ),
+                Tab(
+                  icon: Icon(Icons.timelapse),
+                  text: "Timers"
+                ),
+                Tab(
+                  icon: Icon(Icons.timer),
+                  text: "Stopwatch"
+                )
               ],
             ),
             Expanded(child: Container()),
@@ -107,7 +115,13 @@ class _ClockApp extends State<ClockApp> with TickerProviderStateMixin {
         controller: tcon,
         children: [
           WorldClockTab(),
-          AlarmsTab()
+          AlarmsTab(),
+          Material(
+            child: Center(
+              child: Icon(Icons.airplanemode_active)
+            ),
+          ),
+          StopwatchTab(),
         ],
       )
     );
@@ -128,7 +142,7 @@ class _WorldClockTabState extends State<WorldClockTab> {
   Widget build(BuildContext context) {
     if (_ctimer == null) _ctimer = Timer.periodic(Duration(seconds: 1), (me) {
       _datetime = DateTime.now();
-      setState(() {});
+      if (mounted) setState(() {});
     });
     return Material(
       child: Center(
@@ -150,6 +164,86 @@ class AlarmsTab extends StatelessWidget {
     return Material(
       child: Center(
         child: Icon(Icons.timer_rounded)
+      ),
+    );
+  }
+}
+
+class StopwatchTab extends StatefulWidget {
+  @override
+  _StopwatchTabState createState() => _StopwatchTabState();
+}
+
+var _stopwatch = Stopwatch();
+class _StopwatchTabState extends State<StopwatchTab> {
+
+  String formatDuration(Duration duration) {
+    String output = "";
+    const colon = ":";
+    const dot = ".";
+
+    int durationHours = duration.inHours;
+    int durationMinutes = (duration.inMinutes - (durationHours * 60));
+    int durationSeconds = (duration.inSeconds - (durationMinutes * 60));
+    int durationMilliseconds = (duration.inMilliseconds - (durationSeconds * 1000));
+    
+    if (durationHours > 0) output += "${durationHours}h ";
+    if (durationMinutes > 0) output += "${durationMinutes}m ";
+    if (durationSeconds > 0 || durationMilliseconds > 0) output += "$durationSeconds.${durationMilliseconds.toString().padLeft(4,"0")}s ";
+    else if (durationMinutes == 0 && durationHours == 0 && durationMilliseconds == 0) output += "0s";
+
+    return output;
+  }
+
+  List<Duration> _laps = [];
+  @override
+  Widget build(BuildContext context) {
+    if (_stopwatch.isRunning) Future.delayed(Duration(milliseconds: 10)).then((_) => mounted ? setState((){}) : null);
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
+        children: [
+          Container(height: 24),
+          Row(
+            children: [
+              Text(formatDuration(_stopwatch.elapsed), style: Theme.of(context).textTheme.headline5, textAlign: TextAlign.center)
+            ],
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+          ),
+          Row(
+            children: [
+              _stopwatch.isRunning ? TextButton(
+                child: Text("STOP", style: TextStyle(color: Theme.of(context).accentColor)),
+                onPressed: () => setState((){_stopwatch.stop();}),
+              ) : TextButton(
+                child: Text("START", style: TextStyle(color: Theme.of(context).accentColor)),
+                onPressed: () => setState((){_stopwatch.start();}),
+              ),
+              _stopwatch.isRunning ? TextButton(
+                child: Text("LAP"),
+                onPressed: () => setState((){_laps.add(_stopwatch.elapsed);}),
+              ) : TextButton(
+                child: Text("RESET"),
+                onPressed: () => setState((){_stopwatch.reset();_laps.clear();}),
+              ),
+            ],
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+          ),
+          for (Duration _lap in _laps)
+            Builder(builder: (context) {
+              int index = _laps.indexOf(_lap);
+              String difference = "";
+              if (index != 0 && _laps.length > 1) difference = "${formatDuration(_laps[index] - _laps[index-1])}, ";
+              return Text("Lap ${index+1}: $difference${formatDuration(_laps[index])} total");
+            })
+        ],
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
       ),
     );
   }
