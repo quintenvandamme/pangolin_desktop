@@ -179,8 +179,8 @@ class _StopwatchTabState extends State<StopwatchTab> {
 
   String formatDuration(Duration duration) {
     String output = "";
-    const colon = ":";
-    const dot = ".";
+    //const colon = ":";
+    //const dot = ".";
 
     int durationHours = duration.inHours;
     int durationMinutes = (duration.inMinutes - (durationHours * 60));
