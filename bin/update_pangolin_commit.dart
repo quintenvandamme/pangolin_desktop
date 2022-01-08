@@ -20,8 +20,9 @@ void main() async {
   String contents = new File('globals.dart').readAsStringSync();
   var parts = contents.split('String pangolinCommit = "');
   var part = parts[1].trim();
-  var complete_part = 'String pangolinCommit = "$part';
-  var sed_part1 = "sed -i 's+$complete_part+String pangolinCommit = ";
+  var complete_part = 'String pangolinCommit = "$part';  
+  var sed_part1debug = "sed -i 's+$complete_part+String pangolinCommit = ";
+  var sed_part1 = sed_part1debug.trim().replaceAll(RegExp(r'(\n){3,}'), "\n\n");
   var sed_part2 = '"$commit";+gI';
   var sed_part3 = "'";
   var sed = '$sed_part1$sed_part2$sed_part3 globals.dart';
