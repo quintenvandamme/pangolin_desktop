@@ -30,7 +30,7 @@ void main() async {
   print('sed_part2: $sed_part2');
   print('sed_part3: $sed_part3');
   print('commit: $commit');
-  print('sed: $sed');
+  print('sed: $sed  ENDSED');
 
   await shell.run('''$sed''');
   await shell.run('''git config user.name github-actions''');
