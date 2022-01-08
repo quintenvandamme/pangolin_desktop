@@ -24,7 +24,7 @@ void main() async {
   var sed_part1 = "sed -i 's+$complete_part+String pangolinCommit = ";
   var sed_part2 = '"$commit";+gI';
   var sed_part3 = "'";
-  var sed = '$sed_part1$sed_part2$sed_part3 error.dart';
+  var sed = '$sed_part1$sed_part2$sed_part3 globals.dart';
   // debug
   print('sed_part1: $sed_part1');
   print('sed_part2: $sed_part2');
