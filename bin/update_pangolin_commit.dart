@@ -25,6 +25,12 @@ void main() async {
   var sed_part2 = '"$commit";+gI';
   var sed_part3 = "'";
   var sed = '$sed_part1$sed_part2$sed_part3 error.dart';
+  // debug
+  print('sed_part1: $sed_part1');
+  print('sed_part2: $sed_part2');
+  print('sed_part3: $sed_part3');
+  print('commit: $commit');
+
   await shell.run('''$sed''');
   await shell.run('''git config user.name github-actions''');
   await shell.run('''git config user.email "action@github.com"''');
